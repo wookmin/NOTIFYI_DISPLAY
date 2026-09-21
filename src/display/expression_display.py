@@ -95,46 +95,23 @@ class ExpressionDisplay:
         background = (35, 55, 75) if expression is Expression.SMILE else (55, 35, 45)
         canvas[:, :] = background
 
-        center = (self.width // 2, self.height // 2 - 15)
+        center = (self.width // 2, self.height // 2)
         face_radius = max(120, min(self.width, self.height) // 3)
-        cv2.circle(canvas, center, face_radius, (70, 215, 245), -1)
-        cv2.circle(canvas, center, face_radius, (20, 35, 45), 5)
 
         eye_y = center[1] - face_radius // 3
         eye_dx = face_radius // 2
         for eye_x in (center[0] - eye_dx, center[0] + eye_dx):
-            cv2.circle(canvas, (eye_x, eye_y), max(10, face_radius // 12),
-                       (20, 35, 45), -1)
+            cv2.circle(canvas, (eye_x, eye_y), max(16, face_radius // 10),
+                       (245, 245, 245), -1)
 
-        brow_y = eye_y - face_radius // 4
         if expression is Expression.SMILE:
-            cv2.line(canvas, (center[0] - eye_dx - 25, brow_y),
-                     (center[0] - eye_dx + 25, brow_y), (20, 35, 45), 8)
-            cv2.line(canvas, (center[0] + eye_dx - 25, brow_y),
-                     (center[0] + eye_dx + 25, brow_y), (20, 35, 45), 8)
             cv2.ellipse(canvas, (center[0], center[1] + face_radius // 5),
                         (face_radius // 2, face_radius // 3), 0, 15, 165,
-                        (20, 35, 45), 10)
-            title = "GOOD POSTURE"
+                        (245, 245, 245), 12)
         else:
-            # 안쪽이 낮아지는 눈썹으로 걱정스러운 표정을 만든다.
-            cv2.line(canvas, (center[0] - eye_dx - 25, brow_y + 22),
-                     (center[0] - eye_dx + 25, brow_y - 12), (20, 35, 45), 8)
-            cv2.line(canvas, (center[0] + eye_dx - 25, brow_y - 12),
-                     (center[0] + eye_dx + 25, brow_y + 22), (20, 35, 45), 8)
             cv2.ellipse(canvas, (center[0], center[1] + face_radius // 2),
                         (face_radius // 2, face_radius // 3), 0, 195, 345,
-                        (20, 35, 45), 10)
-            title = "PLEASE SIT STRAIGHT"
-
-        cv2.putText(canvas, title, (40, 58), cv2.FONT_HERSHEY_SIMPLEX, 1.0,
-                    (245, 245, 245), 2, cv2.LINE_AA)
-        detail = posture_label.upper()
-        if torso_pitch is not None and neck_pitch is not None:
-            detail += f"  torso {torso_pitch:+.1f}  neck {neck_pitch:+.1f}"
-        cv2.putText(canvas, detail, (40, self.height - 28),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.55, (215, 225, 230), 1,
-                    cv2.LINE_AA)
+                        (245, 245, 245), 12)
 
         cv2.imshow(self.window_name, canvas)
         return cv2.waitKey(1) & 0xFF
