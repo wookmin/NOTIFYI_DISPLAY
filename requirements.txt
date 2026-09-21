@@ -1,0 +1,18 @@
+# 직접 의존성만 고정한다. 전이 의존성은 pip 가 해결한다.
+# 전체 스냅샷이 필요하면: pip freeze > requirements.lock.txt
+#
+# 설치:
+#   python3 -m venv ~/dynamixel-venv        # 이미 있으면 생략
+#   ~/dynamixel-venv/bin/pip install -r requirements.txt
+#
+# 이 프로젝트는 카메라와 디스플레이만 사용한다.
+
+# 카메라 / 자세 인식
+# mediapipe 1.0 은 numpy<2.x 로 빌드됐지만 런타임에는 numpy 2.x 와 호환된다.
+# 호환이 깨지면 numpy==1.26.4 로 내린다. (pip install 시 경고가 뜨지만 동작함)
+mediapipe==1.0.0
+opencv-python==5.0.0.93
+numpy==2.2.6
+
+# 설정
+PyYAML==6.0.3

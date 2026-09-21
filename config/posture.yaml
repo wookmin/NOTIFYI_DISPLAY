@@ -1,0 +1,26 @@
+# NOTIFYI 카메라 자세 판독 → 디스플레이 표정 모드 설정
+
+perception:
+  # 장치 번호가 다른 환경에서는 --camera 인자로 덮어쓴다.
+  camera: /dev/video0
+  model: lite
+  width: 640
+  height: 480
+  min_visibility: 0.5     # 이 아래면 사람을 못 본 것으로 친다
+  use_saved_reference: false  # 자세 반응 MVP는 사용자별 캘리브레이션을 쓰지 않음
+  invert_torso: false
+  invert_neck: false
+
+# 노트북과 외부 디스플레이만 사용할 때의 표정 설정.
+display:
+  width: 1024
+  height: 600
+  bad_sustain_seconds: 3.0
+  recovery_sustain_seconds: 1.0
+
+angles:
+  max_torso_pitch_deg: 60
+  max_neck_pitch_deg: 35
+  median_window: 7
+  smoothing_alpha: 0.55
+  neck_smoothing_alpha: 0.35
